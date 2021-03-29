@@ -12,27 +12,22 @@ import Avatar from "antd/lib/avatar/avatar";
 import moment from "moment";
 
 const findFromUser = (block) => {
-  let user = "Coinbase";
+  //type 0 - adres
+  //type 1 -hash
 
-  if (block.data.length !== 2) {
-    return user;
-  } else {
-    return block.data[1].txOuts[1]?.address;
-  }
+  return { address: block.data[1]?.txIns[0]?.txOutId };
 };
 
 const findToUser = (block) => {
-  let data = block.data[0].txOuts[0];
-
-  if (block.data.length === 1) {
+  if (block.data.length > 1) {
     return {
-      toUser: data.address,
-      amount: data.amount,
+      toUser: block.data[1]?.txOuts[0].address,
+      amount: block.data[1]?.txOuts[0].amount,
     };
   } else {
     return {
-      toUser: block.data[1].txOuts[0].address,
-      amount: block.data[1].txOuts[0].amount,
+      toUser: block.data[0]?.txOuts[0].address,
+      amount: block.data[0]?.txOuts[0].amount,
     };
   }
 };
@@ -76,15 +71,11 @@ const TransactionList = ({
                   <Col span={16}>
                     <Row>
                       <Col span={24}>
-                        {fromUser == "Coinbase" ? (
-                          "Coinbase"
-                        ) : (
-                          <Tooltip title={item.data[0].id}>
-                            <a href={`/tx/${item.data[0].id}`}>
-                              {item.data[0].id.substring(0, 10)}...
-                            </a>
-                          </Tooltip>
-                        )}
+                        <Tooltip title={item.data[0]?.id}>
+                          <a href={`/tx/${item.data[0]?.id}`}>
+                            {item.data[0]?.id.substring(0, 10)}...
+                          </a>
+                        </Tooltip>
                       </Col>
                       <Col span={24}>
                         <small>{moment(item.timestamp * 1000).fromNow()}</small>
@@ -97,15 +88,13 @@ const TransactionList = ({
                 <Row>
                   <Col span={24}>
                     From :{" "}
-                    {fromUser == "Coinbase" ? (
-                      "Coinbase"
-                    ) : (
-                      <Tooltip title={fromUser}>
-                        <a href={`/address/${fromUser}`}>
-                          <span style={{ fontWeight: 700 }}>{fromUser}...</span>
-                        </a>
-                      </Tooltip>
-                    )}
+                    <Tooltip title={fromUser.address}>
+                      <a href={`/tx/${fromUser.address}`}>
+                        <span style={{ fontWeight: 700 }}>
+                          {fromUser.address.substring(0, 40)}...
+                        </span>
+                      </a>
+                    </Tooltip>
                   </Col>
                   <Col span={24}>
                     To :{" "}
@@ -127,7 +116,9 @@ const TransactionList = ({
                 xs={6}
                 style={{ textAlign: "right" }}
               >
-                <span style={{ fontWeight: 700 }}>{toUser.amount}</span>{" "}
+                <span style={{ fontWeight: 700 }}>
+                  {parseFloat(toUser.amount).toFixed(4)}
+                </span>{" "}
                 <img
                   src="https://cdn.financialintelligencecoin.com/coins/fig.png"
                   width={25}

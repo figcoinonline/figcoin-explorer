@@ -18,14 +18,15 @@ const BlockDetails = ({ data }) => {
 
   return (
     <AppLayout>
-      <Row>
-        <Col span={24}>
-          <h1>Block Details - {data.index}</h1>
-          <p>Hash - {data.hash}</p>
-        </Col>
+      <Row style={{ marginBottom: 20 }}></Row>
+      <Row gutter={[10, 20]}>
+        <Card style={carStyle}>
+          <Col span={20}>
+            <h1>Block Details - {data.index}</h1>
+            <p>Hash - {data.hash}</p>
+          </Col>
 
-        <Col {...responsive}>
-          <Card style={carStyle}>
+          <Col span={20}>
             <Row>
               <Col span={6}>
                 <p>Height</p>
@@ -80,8 +81,8 @@ const BlockDetails = ({ data }) => {
                 </p>
               </Col>
             </Row>
-          </Card>
-        </Col>
+          </Col>
+        </Card>
       </Row>
     </AppLayout>
   );

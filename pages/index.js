@@ -58,8 +58,10 @@ const Index = ({ data }) => {
     const wsData = JSON.parse(message.data);
 
     if (wsData.data) {
-      setBlockchain((prev) => [...JSON.parse(wsData.data), ...prev]);
-      setLastBlock(...JSON.parse(wsData.data));
+      if (wsData.type === 2) {
+        setBlockchain((prev) => [...JSON.parse(wsData.data), ...prev]);
+        setLastBlock(...JSON.parse(wsData.data));
+      }
     }
   };
 
@@ -112,7 +114,7 @@ const Index = ({ data }) => {
           />
         </Col>
       </Row>
-      <Row justify="center" style={{ margin: 30 }}>
+      <Row justify="center" style={{ marginBottom: 20 }}>
         <Col span={24}>
           <CoinSpecs lastBlock={lastBlock} />
         </Col>

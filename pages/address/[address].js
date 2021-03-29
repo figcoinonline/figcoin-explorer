@@ -4,7 +4,7 @@ import { backend } from "../../core/urls";
 import moment from "moment";
 import axios from "axios";
 
-const WalletDetails = ({ data, balance }) => {
+const WalletDetails = ({ data, balance, address }) => {
   const responsive = { xl: 12, lg: 14, md: 24, sm: 24, xs: 24 };
 
   const carStyle = {
@@ -57,12 +57,8 @@ const WalletDetails = ({ data, balance }) => {
       <Row gutter={[20, 20]}>
         <Col {...responsive}>
           <Card style={carStyle}>
-            {" "}
             <h3>
-              Address :{" "}
-              <span style={{ fontWeight: 700 }}>
-                {data.unspentTxOuts[0].address}
-              </span>
+              Address : <span style={{ fontWeight: 700 }}>{address}</span>
             </h3>
             {renderUnspentTxOuts(data)}
           </Card>
@@ -82,12 +78,13 @@ WalletDetails.getInitialProps = async ({ query }) => {
     };
   }
 
-  const balanceres = await fetch(`${backend}balance/`);
+  const balanceres = await fetch(`${backend}balance/${address}`);
   const balance = await balanceres.json();
 
   return {
     data,
     balance,
+    address,
   };
 };
 

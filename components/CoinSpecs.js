@@ -3,7 +3,7 @@ import CoinIndex from "./coin/CoinIndex";
 import Difficulty from "./coin/Difficulty";
 
 const CoinSpecs = ({ lastBlock }) => {
-  const responsive = { xl: 4, lg: 6, md: 12, sm: 24, xs: 24 };
+  const responsive = { xl: 4, lg: 6, md: 12, sm: 12, xs: 12 };
 
   const carStyle = {
     borderRadius: 10,
@@ -14,11 +14,11 @@ const CoinSpecs = ({ lastBlock }) => {
   };
 
   return (
-    <Row justify="center" gutter={[20, 20]} align="middle">
+    <Row justify="center" gutter={[10, 10]} align="middle">
       <Col {...responsive}>
         <Card style={carStyle}>
           <h3>Difficulty</h3>
-          <span style={{ fontSize: 20, fontWeight: 700 }}>
+          <span style={{ fontSize: 16, fontWeight: 700 }}>
             {lastBlock.difficulty}
           </span>
         </Card>
@@ -26,28 +26,28 @@ const CoinSpecs = ({ lastBlock }) => {
 
       <Col {...responsive}>
         <Card style={carStyle}>
-          <h3>Last Block Height</h3>
-          <span style={{ fontSize: 20, fontWeight: 700 }}>
+          <h4>Last Block Height</h4>
+          <span style={{ fontSize: 16, fontWeight: 700 }}>
             {lastBlock.index}
           </span>
         </Card>
       </Col>
-      <Col {...responsive}>
+      <Col xl={4} lg={6} md={24} sm={24} xs={24}>
         <Card style={carStyle}>
-          <h3>Total Coin Supply</h3>
-          <span style={{ fontSize: 20, fontWeight: 700 }}>81.000.000 FIG</span>
+          <h4>Total Coin Supply</h4>
+          <span style={{ fontSize: 16, fontWeight: 700 }}>81.000.000 FIG</span>
         </Card>
       </Col>
       <Col {...responsive}>
         <Card style={carStyle}>
-          <h3>Current Price</h3>
-          <span style={{ fontSize: 20, fontWeight: 700 }}>0.12 USD</span>
+          <h4>Current Price</h4>
+          <span style={{ fontSize: 16, fontWeight: 700 }}>0.12 USD</span>
         </Card>
       </Col>
       <Col {...responsive}>
         <Card style={carStyle}>
-          <h3>Last Timestamp</h3>
-          <span style={{ fontSize: 20, fontWeight: 700 }}>
+          <h4>Last Timestamp</h4>
+          <span style={{ fontSize: 16, fontWeight: 700 }}>
             {lastBlock.timestamp}
           </span>
         </Card>

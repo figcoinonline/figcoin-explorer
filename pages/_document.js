@@ -11,7 +11,7 @@ class MyDocument extends Document {
       <Html lang="tr">
         <Head>
           <meta charSet="utf-8" />
-          <title>Hazirlanıyor</title>
+          <title>FigCoin Explorer | Search ffor Wallet / Block / TxId</title>
 
           <meta
             name="viewport"

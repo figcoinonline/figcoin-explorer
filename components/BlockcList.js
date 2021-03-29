@@ -32,7 +32,8 @@ const BlockchainList = ({
                     BK
                   </Avatar>
                 </Col>
-                <Col span={16}>
+
+                <Col xl={14} lg={12} md={14} sm={18} xs={18}>
                   <Row>
                     <Col span={24}>
                       <a href={`/block/${item.hash}`}>{item.index}</a>
@@ -44,14 +45,8 @@ const BlockchainList = ({
                 </Col>
               </Row>
             </Col>
-            <Col xl={14} lg={12} md={14} sm={18} xs={18}>
+            <Col xl={14} lg={12} md={12} sm={12} xs={12}>
               <Row>
-                <Col span={24}>
-                  Miner{" "}
-                  <Tooltip title={item.data[0].txOuts[0].address}>
-                    {item.data[0].txOuts[0].address.substring(0, 30)}...
-                  </Tooltip>
-                </Col>
                 <Col span={24}>
                   Hash{" "}
                   <a href={`/block/${item.hash}`}>
@@ -63,9 +58,9 @@ const BlockchainList = ({
             <Col
               xl={4}
               lg={4}
-              md={4}
-              sm={6}
-              xs={6}
+              md={0}
+              sm={4}
+              xs={4}
               style={{ textAlign: "right" }}
             >
               Tx Count <br />{" "}
