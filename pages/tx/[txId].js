@@ -68,6 +68,7 @@ const TransactionDetails = ({ data, notFound }) => {
       );
     });
   };
+
   return (
     <AppLayout>
       <Row gutter={[20, 20]}>

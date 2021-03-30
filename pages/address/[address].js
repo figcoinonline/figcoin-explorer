@@ -3,8 +3,9 @@ import AppLayout from "../../components/core/AppLayout";
 import { backend } from "../../core/urls";
 import moment from "moment";
 import axios from "axios";
+import * as _ from "lodash";
 
-const WalletDetails = ({ data, balance, address }) => {
+const WalletDetails = ({ data, balance, address, grouped }) => {
   const responsive = { xl: 12, lg: 14, md: 24, sm: 24, xs: 24 };
 
   const carStyle = {
@@ -49,7 +50,7 @@ const WalletDetails = ({ data, balance, address }) => {
       />
     );
   };
-
+  console.log(grouped, "grouped");
   return (
     <AppLayout>
       <Row style={{ marginBottom: 20 }}></Row>
@@ -72,6 +73,11 @@ WalletDetails.getInitialProps = async ({ query }) => {
   const { address } = query;
   const { data } = await axios.get(`${backend}address/${address}`);
 
+  //grup datası görünecek
+  var grouped = _.mapValues(_.groupBy(data.unspentTxOuts, "amount"), (clist) =>
+    clist.map((txOut) => _.omit(txOut, "amount"))
+  );
+
   if (!data) {
     return {
       notFound: true,
@@ -85,6 +91,7 @@ WalletDetails.getInitialProps = async ({ query }) => {
     data,
     balance,
     address,
+    grouped,
   };
 };
 

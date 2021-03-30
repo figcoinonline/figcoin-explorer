@@ -15,7 +15,11 @@ const findFromUser = (block) => {
   //type 0 - adres
   //type 1 -hash
 
-  return { address: block.data[1]?.txIns[0]?.txOutId };
+  return {
+    address: block.data[1]?.txIns[0]
+      ? block.data[1]?.txIns[0].txOutId
+      : "CoinBase Transaction",
+  };
 };
 
 const findToUser = (block) => {
@@ -88,13 +92,21 @@ const TransactionList = ({
                 <Row>
                   <Col span={24}>
                     From :{" "}
-                    <Tooltip title={fromUser.address}>
-                      <a href={`/tx/${fromUser.address}`}>
+                    {fromUser.address !== "CoinBase Transaction" ? (
+                      <Tooltip title={fromUser.address}>
+                        <a href={`/tx/${fromUser?.address}`}>
+                          <span style={{ fontWeight: 700 }}>
+                            {fromUser?.address.substring(0, 40)}...
+                          </span>
+                        </a>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title={fromUser.address}>
                         <span style={{ fontWeight: 700 }}>
-                          {fromUser.address.substring(0, 40)}...
+                          {fromUser?.address.substring(0, 40)}...
                         </span>
-                      </a>
-                    </Tooltip>
+                      </Tooltip>
+                    )}
                   </Col>
                   <Col span={24}>
                     To :{" "}
