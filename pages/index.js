@@ -19,7 +19,7 @@ const client = new W3CWebSocket(`${process.env.NEXT_PUBLIC_WS_ADDRESS}`);
 const history = new Set();
 const PAGE = 10;
 
-const Index = ({ data }) => {
+const Index = () => {
   const router = useRouter();
 
   const [blockchain, setBlockchain] = useState([]);
@@ -45,13 +45,23 @@ const Index = ({ data }) => {
   };
 
   useEffect(() => {
-    setBlockchain(data.blocks);
-    setLastBlock(data.blocks[0]);
+    const fetch = async () => {
+      const { data } = await axios.get(`${backend}blocksOffset`, {
+        params: {
+          offset: 1,
+          page: PAGE,
+        },
+      });
+      setBlockchain(data.blocks);
+      setLastBlock(data.blocks[0]);
+
+      setLoading(false);
+    };
+
+    fetch();
     client.onopen = () => {
       console.log("WebSocket Client Connected");
     };
-
-    setLoading(false);
   }, []);
 
   client.onmessage = (message) => {
@@ -127,7 +137,7 @@ const Index = ({ data }) => {
               blockchain={blockchain}
               onPageChange={onPageChange}
               currentPage={currentPage}
-              totalSize={data.totalBlocksSize}
+              totalSize={lastBlock.index + 1}
             />
           </Card>
         </Col>
@@ -137,7 +147,7 @@ const Index = ({ data }) => {
               blockchain={blockchain}
               onPageChange={onPageChange}
               currentPage={currentPage}
-              totalSize={data.totalBlocksSize}
+              totalSize={lastBlock.index + 1}
             />
           </Card>
         </Col>
@@ -145,25 +155,5 @@ const Index = ({ data }) => {
     </AppLayout>
   );
 };
-
-export async function getStaticProps(context) {
-  const { data } = await axios.get(`${backend}blocksOffset`, {
-    params: {
-      offset: 1,
-      page: PAGE,
-    },
-  });
-  // const data = await res.json();
-
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { data }, // will be passed to the page component as props
-  };
-}
 
 export default Index;
